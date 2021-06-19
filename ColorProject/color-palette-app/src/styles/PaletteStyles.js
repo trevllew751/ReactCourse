@@ -2,7 +2,8 @@ const styles = {
     Palette: {
         height: "100vh",
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
+        overflowX: "hidden"
     },
     colors: {
         height: "90%"
