@@ -22,11 +22,6 @@ const styles = {
 }
 
 class ColorPickerForm extends Component {
-    constructor(props) {
-        super(props);
-
-    }
-
     render() {
         const {curColor, setColor, handleAdd, colorName, setColorName, paletteIsFull, classes} = this.props;
         return (
@@ -46,6 +41,7 @@ class ColorPickerForm extends Component {
                         errorMessages={["This field is required!", "Color name already in use!", "Color already in use!"]}
                         className={classes.colorNameInput}
                         placeholder={"Color Name"}
+                        margin={"normal"}
                     />
                     <Button
                         variant={"contained"}

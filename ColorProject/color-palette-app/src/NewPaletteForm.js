@@ -13,13 +13,14 @@ import {arrayMove} from "react-sortable-hoc";
 import PaletteFormNav from "./PaletteFormNav";
 import ColorPickerForm from "./ColorPickerForm";
 import {withStyles} from "@material-ui/styles";
+import {DRAWER_WIDTH} from "./Constants";
 
-const drawerWidth = 400;
+const drawerWidth = DRAWER_WIDTH;
 
 const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
     ({theme, open}) => ({
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: "0",
         height: "calc(100vh - 64px)",
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
@@ -85,7 +86,7 @@ function NewPaletteForm(props) {
     });
 
     React.useEffect(() => {
-        ValidatorForm.addValidationRule("isColorUnique", value => {
+        ValidatorForm.addValidationRule("isColorUnique", () => {
             return colors.every(
                 ({color}) => color !== curColor.color && color !== curColor.hex
             );
@@ -114,12 +115,9 @@ function NewPaletteForm(props) {
         return [...prevColors, newColor];
     });
 
-    const handleSubmit = () => {
-        const newPalette = {
-            colors,
-            paletteName,
-            id: paletteName.toLowerCase().replace(/ /g, "-")
-        };
+    const handleSubmit = newPalette => {
+        newPalette.id = newPalette.paletteName.toLowerCase().replace(/ /g, "-");
+        newPalette.colors = colors;
         props.savePalette(newPalette);
         props.history.push("/");
     }
@@ -157,8 +155,7 @@ function NewPaletteForm(props) {
                     flexShrink: 0,
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
-                        boxSizing: 'border-box',
-
+                        boxSizing: 'border-box'
                     },
                 }}
                 variant="persistent"
