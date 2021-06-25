@@ -4,7 +4,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {SortableElement} from "react-sortable-hoc";
 import styles from "./styles/DraggableColorBoxStyles";
 
-const DraggableColorBox = SortableElement((props) => {
+const DraggableColorBox = SortableElement(props => {
     const {classes, name, color, removeColor} = props;
 
     const handleClick = () => {

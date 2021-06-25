@@ -1,5 +1,4 @@
 import React from 'react';
-import {styled} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
@@ -13,55 +12,10 @@ import {arrayMove} from "react-sortable-hoc";
 import PaletteFormNav from "./PaletteFormNav";
 import ColorPickerForm from "./ColorPickerForm";
 import {withStyles} from "@material-ui/styles";
+import {Main, DrawerHeader, styles} from "./styles/NewPaletteFormStyles";
 import {DRAWER_WIDTH} from "./Constants";
-
+import seedColors from "./seedColors";
 const drawerWidth = DRAWER_WIDTH;
-
-const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(
-    ({theme, open}) => ({
-        flexGrow: 1,
-        padding: "0",
-        height: "calc(100vh - 64px)",
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: `-${drawerWidth}px`,
-        ...(open && {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginLeft: 0,
-        }),
-    }),
-);
-
-const DrawerHeader = styled('div')(({theme}) => ({
-    display: 'flex',
-    alignItems: 'center !important',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end !important',
-}));
-
-const styles = {
-    container: {
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%"
-    },
-    buttons: {
-        width: "90%"
-    },
-    button: {
-        width: "50%"
-    }
-}
 
 NewPaletteForm.defaultProps = {
     maxColors: 20
@@ -71,7 +25,7 @@ function NewPaletteForm(props) {
     const [open, setOpen] = React.useState(false);
     // React Hooks
     const [curColor, setColor] = React.useState({color: "#008080", name: "teal"});
-    const [colors, updateColors] = React.useState(props.palettes[0].colors);
+    const [colors, updateColors] = React.useState(seedColors[0].colors);
     const [colorName, setColorName] = React.useState("");
     const [paletteName, setPaletteName] = React.useState("");
 
@@ -134,7 +88,14 @@ function NewPaletteForm(props) {
 
     const addRandom = () => updateColors(prevColors => {
         const allColors = props.palettes.map(p => p.colors).flat();
-        const randomColor = allColors[Math.floor(Math.random() * allColors.length)];
+        let rand;
+        let randomColor;
+        let isDuplicateColor = true;
+        while (isDuplicateColor) {
+            rand = Math.floor(Math.random() * allColors.length);
+            randomColor = allColors[rand];
+            isDuplicateColor = colors.some(color => color.name === randomColor.name);
+        }
         return [...prevColors, randomColor];
     });
 
@@ -206,6 +167,7 @@ function NewPaletteForm(props) {
                     removeColor={handleRemove}
                     axis={"xy"}
                     onSortEnd={onSortEnd}
+                    distance={10}
                 />
             </Main>
         </Box>

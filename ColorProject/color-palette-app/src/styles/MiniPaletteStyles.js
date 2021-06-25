@@ -22,13 +22,14 @@ const styles = {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
+        margin: "0",
         color: "black",
         paddingTop: "0.5rem",
         fontSize: "1rem",
         position: "relative"
     },
     emoji: {
-        marginLeft: "1rem",
+        marginLeft: "0.5rem",
         fontSize: "1.5rem"
     },
     miniColor: {
@@ -37,9 +38,8 @@ const styles = {
         display: "inline-block",
         margin: "0 auto",
         position: "relative",
-        marginBottom: "-4px",
+        marginBottom: "-3.5px"
     },
-    delete: {},
     deleteIcon: {
         color: "white",
         backgroundColor: "#eb3d30",
